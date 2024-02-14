@@ -5,14 +5,15 @@ import 'package:tamagochieur/components/svg/neutral_mood.dart';
 import 'package:tamagochieur/components/svg/very_bad_mood.dart';
 import 'package:tamagochieur/components/svg/very_happy_mood.dart';
 
-class TamagoMoodTile extends StatelessWidget {
-  MoodEnum mood;
-  TamagoMoodTile({super.key, required this.mood});
+class TamagoMoodIcon extends StatelessWidget {
+  final MoodEnum mood;
+  final double size;
+  const TamagoMoodIcon({super.key, required this.mood, required this.size});
 
   @override
   Widget build(BuildContext context) {
     Color moodTileColor = Mood.getColor(mood);
-    double size = 150;
+
     return Container(
       width: size,
       height: size,

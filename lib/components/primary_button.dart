@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TamagoPrimaryButton extends StatelessWidget {
-  String buttonText;
-  double buttonOpacity;
-  void Function()? onTap;
-  TamagoPrimaryButton(
+  final String buttonText;
+  final double buttonOpacity;
+  final void Function()? onTap;
+  const TamagoPrimaryButton(
       {super.key,
       required this.buttonText,
       required this.buttonOpacity,

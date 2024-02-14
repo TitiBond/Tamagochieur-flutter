@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TamagoProgressBar extends StatelessWidget {
-  double progressWidth;
-  Key progressBarKey;
-  Color progressBarColor;
-  TamagoProgressBar(
+  final double progressWidth;
+  final Key progressBarKey;
+  final Color progressBarColor;
+  const TamagoProgressBar(
       {super.key,
       required this.progressWidth,
       required this.progressBarKey,
@@ -13,7 +13,7 @@ class TamagoProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double progressBarHeight = 12;
-    Color progressBarBackgroundColor = this.progressBarColor.withOpacity(0.4);
+    Color progressBarBackgroundColor = progressBarColor.withOpacity(0.4);
     double progressBarBorderRadius = 5;
 
     return Stack(
