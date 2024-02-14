@@ -15,19 +15,16 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   GlobalKey drinkProgressBarKey = GlobalKey();
   double drinkProgress = 70;
   double drinkProgressWidth = 0;
-  double _drinkScale = 1;
 
   //sleep
   GlobalKey sleepProgressBarKey = GlobalKey();
   double sleepProgress = 25.444;
   double sleepProgressWidth = 0;
-  double _sleepScale = 1;
 
   //hug
   GlobalKey hugProgressBarKey = GlobalKey();
   double hugProgress = 49.5;
   double hugProgressWidth = 0;
-  double _hugScale = 1;
 
   bool _isThereAction = false;
 
@@ -100,65 +97,30 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          AnimatedScale(
-                            scale: _drinkScale == 1 ? 0.9 : 1,
-                            duration: const Duration(milliseconds: 100),
-                            child: TamagoNeedsTile(
-                              needType: NeedsType.drink,
-                              progress: drinkProgress,
-                              progressWidth: drinkProgressWidth,
-                              progressBarKey: drinkProgressBarKey,
-                              onTapDown: (p0) {
-                                setState(() {
-                                  _drinkScale = _drinkScale == 1 ? 0.9 : 1;
-                                });
-                              },
-                              onTapUp: (p0) {
-                                setState(() {
-                                  _drinkScale = _drinkScale == 1 ? 0.9 : 1;
-                                });
-                              },
-                            ),
+                          TamagoNeedsTile(
+                            needType: NeedsType.drink,
+                            progress: drinkProgress,
+                            progressWidth: drinkProgressWidth,
+                            progressBarKey: drinkProgressBarKey,
+                            onTapDown: (p0) {},
+                            onTapUp: (p0) {},
                           ),
-                          AnimatedScale(
-                            scale: _sleepScale == 1 ? 0.9 : 1,
-                            duration: const Duration(milliseconds: 100),
-                            child: TamagoNeedsTile(
-                              needType: NeedsType.sleep,
-                              progress: sleepProgress,
-                              progressWidth: sleepProgressWidth,
-                              progressBarKey: sleepProgressBarKey,
-                              onTapDown: (p0) {
-                                setState(() {
-                                  _sleepScale = _sleepScale == 1 ? 0.9 : 1;
-                                });
-                              },
-                              onTapUp: (p0) {
-                                setState(() {
-                                  _sleepScale = _sleepScale == 1 ? 0.9 : 1;
-                                });
-                              },
-                            ),
+                          TamagoNeedsTile(
+                            needType: NeedsType.sleep,
+                            progress: sleepProgress,
+                            progressWidth: sleepProgressWidth,
+                            progressBarKey: sleepProgressBarKey,
+                            onTapDown: (p0) {},
+                            onTapUp: (p0) {},
                           ),
-                          AnimatedScale(
-                              scale: _hugScale == 1 ? 0.9 : 1,
-                              duration: const Duration(milliseconds: 100),
-                              child: TamagoNeedsTile(
-                                needType: NeedsType.hug,
-                                progress: hugProgress,
-                                progressWidth: hugProgressWidth,
-                                progressBarKey: hugProgressBarKey,
-                                onTapDown: (p0) {
-                                  setState(() {
-                                    _hugScale = _hugScale == 1 ? 0.9 : 1;
-                                  });
-                                },
-                                onTapUp: (p0) {
-                                  setState(() {
-                                    _hugScale = _hugScale == 1 ? 0.9 : 1;
-                                  });
-                                },
-                              ))
+                          TamagoNeedsTile(
+                            needType: NeedsType.hug,
+                            progress: hugProgress,
+                            progressWidth: hugProgressWidth,
+                            progressBarKey: hugProgressBarKey,
+                            onTapDown: (p0) {},
+                            onTapUp: (p0) {},
+                          )
                         ]),
                   )
                 ],
