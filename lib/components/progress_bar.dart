@@ -13,7 +13,7 @@ class TamagoProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double progressBarHeight = 12;
-    Color progressBarBackgroundColor = Colors.grey;
+    Color progressBarBackgroundColor = this.progressBarColor.withOpacity(0.4);
     double progressBarBorderRadius = 5;
 
     return Stack(
