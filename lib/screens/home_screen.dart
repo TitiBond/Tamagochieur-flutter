@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/mood_tile/mood_tile.dart';
 import 'package:tamagochieur/components/needs_tile/needs_tile.dart';
+import 'package:tamagochieur/utils/mqtt_server_client.dart';
 
 class TamagoHomeScreen extends StatefulWidget {
   const TamagoHomeScreen({super.key});
@@ -11,50 +13,83 @@ class TamagoHomeScreen extends StatefulWidget {
 }
 
 class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
+  //global mood
+  MoodEnum mood = MoodEnum.neutral;
+
   //drink
   GlobalKey drinkProgressBarKey = GlobalKey();
-  double drinkProgress = 70;
+  double drinkProgress = 0;
   double drinkProgressWidth = 0;
 
   //sleep
   GlobalKey sleepProgressBarKey = GlobalKey();
-  double sleepProgress = 25.444;
+  double sleepProgress = 0;
   double sleepProgressWidth = 0;
 
   //hug
   GlobalKey hugProgressBarKey = GlobalKey();
-  double hugProgress = 49.5;
+  double hugProgress = 0;
   double hugProgressWidth = 0;
 
   bool _isThereAction = false;
 
+  Mqtt mqttHandler = Mqtt();
+
   @override
   void initState() {
     super.initState();
+    var x = mqttHandler.connectToMqtt(getSubscribeValue);
 
     Timer(const Duration(milliseconds: 100), () {
-      if (drinkProgressBarKey.currentContext != null) {
-        setState(() {
-          drinkProgressWidth = (drinkProgressBarKey.currentContext
-                      ?.findRenderObject() as RenderBox)
+      setState(() {
+        updateNeedValues();
+      });
+    });
+  }
+
+  void updateNeedValues() {
+    if (drinkProgressBarKey.currentContext != null) {
+      drinkProgressWidth =
+          (drinkProgressBarKey.currentContext?.findRenderObject() as RenderBox)
                   .size
                   .width *
               drinkProgress /
               100;
-          sleepProgressWidth = (sleepProgressBarKey.currentContext
-                      ?.findRenderObject() as RenderBox)
+      sleepProgressWidth =
+          (sleepProgressBarKey.currentContext?.findRenderObject() as RenderBox)
                   .size
                   .width *
               sleepProgress /
               100;
-          hugProgressWidth = (hugProgressBarKey.currentContext
-                      ?.findRenderObject() as RenderBox)
+      hugProgressWidth =
+          (hugProgressBarKey.currentContext?.findRenderObject() as RenderBox)
                   .size
                   .width *
               hugProgress /
               100;
-        });
+    }
+  }
+
+  void getSubscribeValue(String value) {
+    final values = jsonDecode(value);
+    setState(() {
+      sleepProgress = values["sleepy"];
+      drinkProgress = values["thirst"];
+      hugProgress = values["affection"];
+      final state = values["state"];
+
+      if (state <= 25) {
+        mood = MoodEnum.veryBad;
+      } else if (state <= 40) {
+        mood = MoodEnum.bad;
+      } else if (state <= 60) {
+        mood = MoodEnum.neutral;
+      } else if (state <= 90) {
+        mood = MoodEnum.happy;
+      } else {
+        mood = MoodEnum.veryHappy;
       }
+      updateNeedValues();
     });
   }
 
@@ -83,8 +118,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                            child: TamagoMoodTile(mood: MoodEnum.neutral)),
+                        child: Center(child: TamagoMoodTile(mood: mood)),
                       )),
                   _isThereAction
                       ? SizedBox(
