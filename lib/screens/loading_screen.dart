@@ -19,7 +19,7 @@ class _TamagoLoadingScreenState extends State<TamagoLoadingScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     Future.delayed(
-        const Duration(milliseconds: 3500),
+        const Duration(milliseconds: 1500),
         () => {
               setState(
                 () {
