@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/needs_tile.dart';
 
 class TamagoNeedsIcon extends StatelessWidget {
-  NeedsType needsType;
-  TamagoNeedsIcon({super.key, required this.needsType});
+  final NeedsType needsType;
+  const TamagoNeedsIcon({super.key, required this.needsType});
 
   @override
   Widget build(BuildContext context) {

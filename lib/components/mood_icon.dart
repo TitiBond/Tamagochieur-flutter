@@ -6,9 +6,9 @@ import 'package:tamagochieur/components/svg/very_bad_mood.dart';
 import 'package:tamagochieur/components/svg/very_happy_mood.dart';
 
 class TamagoMoodIcon extends StatelessWidget {
-  MoodEnum mood;
-  double size;
-  TamagoMoodIcon({super.key, required this.mood, required this.size});
+  final MoodEnum mood;
+  final double size;
+  const TamagoMoodIcon({super.key, required this.mood, required this.size});
 
   @override
   Widget build(BuildContext context) {

@@ -112,7 +112,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
               backgroundColor: Colors.white,
               isScrollControlled: true,
               context: context,
-              builder: (context) => TamagoDraggableScrollableSheet(),
+              builder: (context) => const TamagoDraggableScrollableSheet(),
             );
           },
           child: const Icon(Icons.question_mark),
