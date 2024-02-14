@@ -20,16 +20,19 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   GlobalKey drinkProgressBarKey = GlobalKey();
   double drinkProgress = 0;
   double drinkProgressWidth = 0;
+  bool drinkAction = false;
 
   //sleep
   GlobalKey sleepProgressBarKey = GlobalKey();
   double sleepProgress = 0;
   double sleepProgressWidth = 0;
+  bool sleepAction = false;
 
   //hug
   GlobalKey hugProgressBarKey = GlobalKey();
   double hugProgress = 0;
   double hugProgressWidth = 0;
+  bool hugAction = false;
 
   bool _isThereAction = false;
 
@@ -73,9 +76,12 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   void getSubscribeValue(String value) {
     final values = jsonDecode(value);
     setState(() {
-      sleepProgress = values["sleepy"] + 0.0;
-      drinkProgress = values["thirst"] + 0.0;
-      hugProgress = values["affection"] + 0.0;
+      sleepProgress = values["sleepy"]["value"] + 0.0;
+      sleepAction = values["sleepy"]["action"];
+      drinkProgress = values["thirst"]["value"] + 0.0;
+      drinkAction = values["thirst"]["action"];
+      hugProgress = values["affection"]["value"] + 0.0;
+      hugAction = values["affection"]["action"];
       final state = values["state"];
 
       if (state <= 25) {
@@ -136,7 +142,11 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                             progress: drinkProgress,
                             progressWidth: drinkProgressWidth,
                             progressBarKey: drinkProgressBarKey,
-                            onTapDown: (p0) {},
+                            onTapDown: (p0) {
+                              drinkAction
+                                  ? mqttHandler.publishData("thirst")
+                                  : null;
+                            },
                             onTapUp: (p0) {},
                           ),
                           TamagoNeedsTile(
@@ -144,7 +154,11 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                             progress: sleepProgress,
                             progressWidth: sleepProgressWidth,
                             progressBarKey: sleepProgressBarKey,
-                            onTapDown: (p0) {},
+                            onTapDown: (p0) {
+                              sleepAction
+                                  ? mqttHandler.publishData("sleepy")
+                                  : null;
+                            },
                             onTapUp: (p0) {},
                           ),
                           TamagoNeedsTile(
@@ -152,7 +166,11 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                             progress: hugProgress,
                             progressWidth: hugProgressWidth,
                             progressBarKey: hugProgressBarKey,
-                            onTapDown: (p0) {},
+                            onTapDown: (p0) {
+                              hugAction
+                                  ? mqttHandler.publishData("affection")
+                                  : null;
+                            },
                             onTapUp: (p0) {},
                           )
                         ]),
