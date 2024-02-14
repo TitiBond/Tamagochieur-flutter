@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tamagochieur/components/needs_icon.dart';
 import 'package:tamagochieur/components/progress_bar.dart';
 import 'package:tamagochieur/components/svg/drink_svg.dart';
 import 'package:tamagochieur/components/svg/hug_svg.dart';
 import 'package:tamagochieur/components/svg/sleep_svg.dart';
 
 class TamagoNeedsTile extends StatefulWidget {
-  NeedsType needType;
-  double progress;
-  double progressWidth;
-  GlobalKey progressBarKey;
-  void Function(TapUpDetails) onTapUp;
-  void Function(TapDownDetails) onTapDown;
-  TamagoNeedsTile(
+  final NeedsType needType;
+  final double progress;
+  final double progressWidth;
+  final GlobalKey progressBarKey;
+  final void Function(TapUpDetails) onTapUp;
+  final void Function(TapDownDetails) onTapDown;
+  const TamagoNeedsTile(
       {super.key,
       required this.needType,
       required this.progress,
@@ -51,22 +51,12 @@ class _TamagoNeedsTileState extends State<TamagoNeedsTile> {
           // width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: Color.fromRGBO(129, 129, 129, 0.25),
+              color: const Color.fromRGBO(129, 129, 129, 0.25),
               borderRadius: BorderRadius.circular(20)),
           child: Row(
             children: [
               //carré gauche
-              Container(
-                decoration: BoxDecoration(
-                    color: NeedsTypeAtr.getColor(widget.needType),
-                    borderRadius: BorderRadius.circular(8)),
-                padding: const EdgeInsets.all(8),
-                child: SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: NeedsTypeAtr.getSvg(widget.needType),
-                ),
-              ),
+              TamagoNeedsIcon(needsType: widget.needType),
               const SizedBox(
                 width: 8,
               ),
@@ -138,6 +128,17 @@ class NeedsTypeAtr {
         return "Sleep Progress";
       case NeedsType.hug:
         return "Hug Progress";
+    }
+  }
+
+  static String getTipsText(NeedsType type) {
+    switch (type) {
+      case NeedsType.drink:
+        return "Pour donner à boire à votre 'Chieur', pensez à lui redonner de l'eau fraîche.";
+      case NeedsType.sleep:
+        return "Si votre 'chieur' veut dormir, éteignez la lumière ou mettez lui un drap sur la tête.";
+      case NeedsType.hug:
+        return "Votre 'chieur' veut un calin ? Caressez lui le haut de la tête.";
     }
   }
 }

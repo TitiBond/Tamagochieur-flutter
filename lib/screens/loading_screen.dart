@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tamagochieur/components/buttons/primary_button.dart';
+import 'package:tamagochieur/components/primary_button.dart';
 
 class TamagoLoadingScreen extends StatefulWidget {
   const TamagoLoadingScreen({super.key});

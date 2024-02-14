@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:tamagochieur/components/mood_tile/mood_tile.dart';
-import 'package:tamagochieur/components/needs_tile/needs_tile.dart';
+import 'package:tamagochieur/components/draggable_scrollable_sheet.dart';
+import 'package:tamagochieur/components/mood_icon.dart';
+import 'package:tamagochieur/components/needs_tile.dart';
 import 'package:tamagochieur/utils/mqtt_server_client.dart';
 
 class TamagoHomeScreen extends StatefulWidget {
@@ -102,6 +103,20 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: FloatingActionButton(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            showModalBottomSheet(
+              backgroundColor: Colors.white,
+              isScrollControlled: true,
+              context: context,
+              builder: (context) => TamagoDraggableScrollableSheet(),
+            );
+          },
+          child: const Icon(Icons.question_mark),
+        ),
         body: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -124,7 +139,11 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Center(child: TamagoMoodTile(mood: mood)),
+                        child: Center(
+                            child: TamagoMoodIcon(
+                          mood: mood,
+                          size: 150,
+                        )),
                       )),
                   _isThereAction
                       ? SizedBox(
