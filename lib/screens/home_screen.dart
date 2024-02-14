@@ -16,6 +16,7 @@ class TamagoHomeScreen extends StatefulWidget {
 class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   //global mood
   MoodEnum mood = MoodEnum.neutral;
+  Color screenAnimatedBackgroundColor = Colors.yellow[500]!;
 
   //drink
   GlobalKey drinkProgressBarKey = GlobalKey();
@@ -96,6 +97,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
       } else {
         mood = MoodEnum.veryHappy;
       }
+      screenAnimatedBackgroundColor = Mood.getColor(mood);
       updateNeedValues();
     });
   }
@@ -117,16 +119,18 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
           },
           child: const Icon(Icons.question_mark),
         ),
-        body: Container(
+        body: AnimatedContainer(
+            duration: const Duration(seconds: 2),
             width: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
+                  screenAnimatedBackgroundColor,
                   Colors.yellow[100]!,
                   Colors.yellow[300]!,
-                  Colors.yellow[500]!,
+                  screenAnimatedBackgroundColor
                 ])),
             child: Padding(
               padding:
