@@ -38,7 +38,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   @override
   void initState() {
     super.initState();
-    var x = mqttHandler.connectToMqtt(getSubscribeValue);
+    mqttHandler.connectToMqtt(getSubscribeValue);
 
     Timer(const Duration(milliseconds: 100), () {
       setState(() {
@@ -73,9 +73,9 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   void getSubscribeValue(String value) {
     final values = jsonDecode(value);
     setState(() {
-      sleepProgress = values["sleepy"];
-      drinkProgress = values["thirst"];
-      hugProgress = values["affection"];
+      sleepProgress = values["sleepy"] + 0.0;
+      drinkProgress = values["thirst"] + 0.0;
+      hugProgress = values["affection"] + 0.0;
       final state = values["state"];
 
       if (state <= 25) {
