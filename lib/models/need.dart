@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 enum NeedsType { drink, sleep, hug }
 
@@ -56,6 +57,38 @@ class NeedsTypeAtr {
         return "Si votre 'chieur' veut dormir, éteignez la lumière ou mettez lui un drap sur la tête.";
       case NeedsType.hug:
         return "Votre 'chieur' veut un calin ? Caressez lui le haut de la tête.";
+    }
+  }
+
+  static Positioned getAnimation(
+      NeedsType type, AnimationController controller, Offset position) {
+    switch (type) {
+      case NeedsType.drink:
+        return Positioned(
+            top: position.dy - 100,
+            left: -20,
+            child: Lottie.asset(
+              'assets/animations/water.json',
+              controller: controller,
+              width: 150,
+            ));
+      case NeedsType.sleep:
+        return Positioned(
+            top: position.dy - 50,
+            left: 0,
+            child: Lottie.asset(
+              'assets/animations/zzz.json',
+              controller: controller,
+              width: 125,
+            ));
+      case NeedsType.hug:
+        return Positioned(
+            top: position.dy - 255,
+            left: 0,
+            child: Lottie.asset(
+              'assets/animations/love.json',
+              controller: controller,
+            ));
     }
   }
 }

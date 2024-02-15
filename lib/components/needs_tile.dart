@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/needs_icon.dart';
 import 'package:tamagochieur/components/progress_bar.dart';
@@ -8,16 +10,15 @@ class TamagoNeedsTile extends StatefulWidget {
   final double progress;
   final double progressWidth;
   final GlobalKey progressBarKey;
-  final void Function(TapUpDetails) onTapUp;
-  final void Function(TapDownDetails) onTapDown;
-  const TamagoNeedsTile(
-      {super.key,
-      required this.needType,
-      required this.progress,
-      required this.progressBarKey,
-      required this.progressWidth,
-      required this.onTapDown,
-      required this.onTapUp});
+  final bool Function() onTap;
+  const TamagoNeedsTile({
+    super.key,
+    required this.needType,
+    required this.progress,
+    required this.progressBarKey,
+    required this.progressWidth,
+    required this.onTap,
+  });
 
   @override
   State<TamagoNeedsTile> createState() => _TamagoNeedsTileState();
@@ -25,22 +26,33 @@ class TamagoNeedsTile extends StatefulWidget {
 
 class _TamagoNeedsTileState extends State<TamagoNeedsTile> {
   double scale = 1;
+  bool isButtonPressed = false;
   @override
   Widget build(BuildContext context) {
     void changeScale() {
-      setState(() {
-        scale = scale == 1 ? 0.9 : 1;
-      });
+      if (!isButtonPressed) {
+        const timer = Duration(milliseconds: 121);
+        setState(() {
+          isButtonPressed = !isButtonPressed;
+          scale = scale == 1 ? 0.9 : 1;
+        });
+        Timer(timer, () {
+          setState(() {
+            scale = scale == 1 ? 0.9 : 1;
+          });
+          Timer(timer * 2, () {
+            isButtonPressed = !isButtonPressed;
+          });
+        });
+      }
     }
 
     return GestureDetector(
-      onTapDown: (event) {
-        changeScale();
-        widget.onTapDown(event);
-      },
-      onTapUp: (event) {
-        changeScale();
-        widget.onTapUp(event);
+      onTap: () {
+        var x = widget.onTap();
+        if (x && !isButtonPressed) {
+          changeScale();
+        }
       },
       child: AnimatedScale(
         duration: const Duration(milliseconds: 100),
