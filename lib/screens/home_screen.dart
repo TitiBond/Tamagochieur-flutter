@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/draggable_scrollable_sheet.dart';
-import 'package:tamagochieur/components/mood_icon.dart';
 import 'package:tamagochieur/components/needs_tile.dart';
+import 'package:tamagochieur/models/mood.dart';
+import 'package:tamagochieur/models/need.dart';
 import 'package:tamagochieur/utils/mqtt_server_client.dart';
 
 class TamagoHomeScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class TamagoHomeScreen extends StatefulWidget {
 class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   //global mood
   MoodEnum mood = MoodEnum.neutral;
-  Color screenAnimatedBackgroundColor = Colors.yellow[500]!;
+  Color screenAnimatedBackgroundColor = Mood.getColor(MoodEnum.neutral);
 
   //drink
   GlobalKey drinkProgressBarKey = GlobalKey();
@@ -124,13 +125,14 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
             width: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                     colors: [
                   screenAnimatedBackgroundColor,
-                  Colors.yellow[100]!,
+                  screenAnimatedBackgroundColor,
+                  Colors.yellow[700]!,
+                  Colors.yellow[500]!,
                   Colors.yellow[300]!,
-                  screenAnimatedBackgroundColor
                 ])),
             child: Padding(
               padding:
@@ -143,11 +145,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                            child: TamagoMoodIcon(
-                          mood: mood,
-                          size: 150,
-                        )),
+                        child: Center(child: Mood.getIcon(mood, 150)),
                       )),
                   _isThereAction
                       ? SizedBox(
