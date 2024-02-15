@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/draggable_scrollable_sheet.dart';
-import 'package:tamagochieur/components/mood_icon.dart';
 import 'package:tamagochieur/components/needs_tile.dart';
+import 'package:tamagochieur/models/mood.dart';
+import 'package:tamagochieur/models/need.dart';
 import 'package:tamagochieur/utils/mqtt_server_client.dart';
 
 class TamagoHomeScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class TamagoHomeScreen extends StatefulWidget {
 class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
   //global mood
   MoodEnum mood = MoodEnum.neutral;
+  Color screenAnimatedBackgroundColor = Mood.getColor(MoodEnum.neutral);
 
   //drink
   GlobalKey drinkProgressBarKey = GlobalKey();
@@ -96,6 +98,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
       } else {
         mood = MoodEnum.veryHappy;
       }
+      screenAnimatedBackgroundColor = Mood.getColor(mood);
       updateNeedValues();
     });
   }
@@ -117,16 +120,19 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
           },
           child: const Icon(Icons.question_mark),
         ),
-        body: Container(
+        body: AnimatedContainer(
+            duration: const Duration(seconds: 2),
             width: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                     colors: [
-                  Colors.yellow[100]!,
-                  Colors.yellow[300]!,
+                  screenAnimatedBackgroundColor,
+                  screenAnimatedBackgroundColor,
+                  Colors.yellow[700]!,
                   Colors.yellow[500]!,
+                  Colors.yellow[300]!,
                 ])),
             child: Padding(
               padding:
@@ -139,11 +145,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Center(
-                            child: TamagoMoodIcon(
-                          mood: mood,
-                          size: 150,
-                        )),
+                        child: Center(child: Mood.getIcon(mood, 150)),
                       )),
                   _isThereAction
                       ? SizedBox(

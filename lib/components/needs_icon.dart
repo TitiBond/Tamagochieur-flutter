@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamagochieur/components/needs_tile.dart';
+import 'package:tamagochieur/models/need.dart';
 
 class TamagoNeedsIcon extends StatelessWidget {
   final NeedsType needsType;
@@ -17,9 +17,7 @@ class TamagoNeedsIcon extends StatelessWidget {
           borderRadius: BorderRadius.circular(iconBorderRadius)),
       padding: EdgeInsets.all(iconPadding),
       child: SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: NeedsTypeAtr.getSvg(needsType),
+        child: NeedsTypeAtr.getSvg(needsType, iconSize),
       ),
     );
   }

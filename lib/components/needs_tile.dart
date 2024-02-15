@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/needs_icon.dart';
 import 'package:tamagochieur/components/progress_bar.dart';
-import 'package:tamagochieur/components/svg/drink_svg.dart';
-import 'package:tamagochieur/components/svg/hug_svg.dart';
-import 'package:tamagochieur/components/svg/sleep_svg.dart';
+import 'package:tamagochieur/models/need.dart';
 
 class TamagoNeedsTile extends StatefulWidget {
   final NeedsType needType;
@@ -92,53 +90,5 @@ class _TamagoNeedsTileState extends State<TamagoNeedsTile> {
         ),
       ),
     );
-  }
-}
-
-enum NeedsType { drink, sleep, hug }
-
-class NeedsTypeAtr {
-  static Color getColor(NeedsType type) {
-    switch (type) {
-      case NeedsType.drink:
-        return Colors.blue;
-      case NeedsType.sleep:
-        return Colors.purple;
-      case NeedsType.hug:
-        return Colors.red;
-    }
-  }
-
-  static Widget getSvg(NeedsType type) {
-    switch (type) {
-      case NeedsType.drink:
-        return TamagoDrinkSvg();
-      case NeedsType.sleep:
-        return TamagoSleepSvg();
-      case NeedsType.hug:
-        return TamagoHugSvg();
-    }
-  }
-
-  static String getText(NeedsType type) {
-    switch (type) {
-      case NeedsType.drink:
-        return "Drink Progress";
-      case NeedsType.sleep:
-        return "Sleep Progress";
-      case NeedsType.hug:
-        return "Hug Progress";
-    }
-  }
-
-  static String getTipsText(NeedsType type) {
-    switch (type) {
-      case NeedsType.drink:
-        return "Pour donner à boire à votre 'Chieur', pensez à lui redonner de l'eau fraîche.";
-      case NeedsType.sleep:
-        return "Si votre 'chieur' veut dormir, éteignez la lumière ou mettez lui un drap sur la tête.";
-      case NeedsType.hug:
-        return "Votre 'chieur' veut un calin ? Caressez lui le haut de la tête.";
-    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/needs_icon.dart';
-import 'package:tamagochieur/components/needs_tile.dart';
+import 'package:tamagochieur/models/need.dart';
 
 class TamagoTipsTile extends StatelessWidget {
   final NeedsType type;
