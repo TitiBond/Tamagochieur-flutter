@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tamagochieur/components/mood_icon.dart';
-import 'package:tamagochieur/components/needs_tile.dart';
 import 'package:tamagochieur/components/tips_tile.dart';
+import 'package:tamagochieur/models/mood.dart';
+import 'package:tamagochieur/models/need.dart';
 
 class TamagoDraggableScrollableSheet extends StatelessWidget {
   const TamagoDraggableScrollableSheet({super.key});
