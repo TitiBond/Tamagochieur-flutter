@@ -38,7 +38,7 @@ class NeedsTypeAtr {
     }
   }
 
-  static String getText(NeedsType type) {
+  static String getTileText(NeedsType type) {
     switch (type) {
       case NeedsType.drink:
         return "Drink Progress";
@@ -60,35 +60,64 @@ class NeedsTypeAtr {
     }
   }
 
-  static Positioned getAnimation(
-      NeedsType type, AnimationController controller, Offset position) {
+  static Positioned getAnimation(NeedsType type, AnimationController controller,
+      Offset position, bool isAction) {
     switch (type) {
       case NeedsType.drink:
         return Positioned(
-            top: position.dy - 100,
+            top: position.dy - (isAction ? 100 : 50),
             left: -20,
             child: Lottie.asset(
-              'assets/animations/water.json',
+              'assets/animations/${isAction ? "water.json" : 'prout.json'}',
               controller: controller,
               width: 150,
             ));
       case NeedsType.sleep:
         return Positioned(
             top: position.dy - 50,
-            left: 0,
+            left: isAction ? 0 : -20,
             child: Lottie.asset(
-              'assets/animations/zzz.json',
+              'assets/animations/${isAction ? 'zzz.json' : 'prout.json'}',
               controller: controller,
-              width: 125,
+              width: 150,
             ));
       case NeedsType.hug:
         return Positioned(
-            top: position.dy - 255,
-            left: 0,
+            top: position.dy - (isAction ? 255 : 55),
+            left: isAction ? 0 : -20,
             child: Lottie.asset(
-              'assets/animations/love.json',
-              controller: controller,
-            ));
+                'assets/animations/${isAction ? 'love.json' : 'prout.json'}',
+                controller: controller,
+                width: isAction ? null : 150));
+    }
+  }
+
+  static String getSnackbarText(NeedsType type) {
+    switch (type) {
+      case NeedsType.drink:
+        return "J'ai pas soif !";
+      case NeedsType.sleep:
+        return "J'ai pas envie de dormir.";
+      case NeedsType.hug:
+        return "Me touche pas !";
+    }
+  }
+
+  static Text getNeedText(NeedsType type) {
+    TextStyle style = const TextStyle(fontSize: 16);
+    switch (type) {
+      case NeedsType.drink:
+        return Text(
+          "J'ai soif.",
+          style: style,
+        );
+      case NeedsType.sleep:
+        return Text(
+          "ZzZ  J'ai envie de dormir. zzZ",
+          style: style,
+        );
+      case NeedsType.hug:
+        return Text("Tu veux me faire un bisous ?", style: style);
     }
   }
 }

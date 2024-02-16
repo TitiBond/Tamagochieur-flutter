@@ -10,7 +10,7 @@ class TamagoNeedsTile extends StatefulWidget {
   final double progress;
   final double progressWidth;
   final GlobalKey progressBarKey;
-  final bool Function() onTap;
+  final void Function() onTap;
   const TamagoNeedsTile({
     super.key,
     required this.needType,
@@ -49,8 +49,8 @@ class _TamagoNeedsTileState extends State<TamagoNeedsTile> {
 
     return GestureDetector(
       onTap: () {
-        var x = widget.onTap();
-        if (x && !isButtonPressed) {
+        widget.onTap();
+        if (!isButtonPressed) {
           changeScale();
         }
       },
@@ -81,7 +81,7 @@ class _TamagoNeedsTileState extends State<TamagoNeedsTile> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(NeedsTypeAtr.getText(widget.needType)),
+                        Text(NeedsTypeAtr.getTileText(widget.needType)),
                         Text('${widget.progress.round()} %')
                       ],
                     ),
