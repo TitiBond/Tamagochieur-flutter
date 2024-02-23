@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TamagoNeedsSnackbar {
   static SnackBar showTamagoSnackbar(String message) {
-    double snackbarMargin = 6;
+    double snackbarMargin = 12;
     Color snackbarBackgroundColor = const Color.fromARGB(255, 98, 21, 15);
 
     return SnackBar(

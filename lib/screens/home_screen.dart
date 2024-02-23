@@ -32,6 +32,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
   double drinkProgress = 0;
   double drinkProgressWidth = 0;
   bool drinkAction = true;
+  bool drinkActionIsPlaying = true;
 
   //sleep
   GlobalKey sleepTileKey = GlobalKey();
@@ -42,6 +43,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
   double sleepProgress = 0;
   double sleepProgressWidth = 0;
   bool sleepAction = false;
+  bool sleepActionIsPlaying = false;
 
   //hug
   GlobalKey hugTileKey = GlobalKey();
@@ -52,6 +54,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
   double hugProgress = 0;
   double hugProgressWidth = 0;
   bool hugAction = false;
+  bool hugActionIsPlaying = false;
 
   Mqtt mqttHandler = Mqtt();
 
@@ -140,6 +143,7 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
     switch (value) {
       case "thirst":
         if (drinkAction) {
+          drinkActionIsPlaying = true;
           mqttHandler.publishData(value);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -157,10 +161,14 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
               isDrinkAnimationOn = !isDrinkAnimationOn;
             });
           });
+          Timer(buttonAnimationDuration + Duration(milliseconds: 100), () {
+            drinkActionIsPlaying = false;
+          });
         }
         break;
       case "sleepy":
         if (sleepAction) {
+          sleepActionIsPlaying = true;
           mqttHandler.publishData(value);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -176,12 +184,17 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
             setState(() {
               _sleepAnimationController.reset();
               isSleepAnimationOn = !isSleepAnimationOn;
+              // sleepActionIsPlaying = false;
             });
+          });
+          Timer(buttonAnimationDuration + Duration(milliseconds: 100), () {
+            sleepActionIsPlaying = false;
           });
         }
         break;
       case "affection":
         if (hugAction) {
+          hugActionIsPlaying = true;
           mqttHandler.publishData(value);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -198,6 +211,9 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
               _hugAnimationController.reset();
               isHugAnimationOn = !isHugAnimationOn;
             });
+          });
+          Timer(buttonAnimationDuration + Duration(milliseconds: 100), () {
+            hugActionIsPlaying = false;
           });
         }
         break;
@@ -239,12 +255,12 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
                     ])),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 25.0, horizontal: 16),
+                      vertical: 32.0, horizontal: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                          height: MediaQuery.of(context).size.height / 3,
+                          height: MediaQuery.of(context).size.height / 100 * 28,
                           width: MediaQuery.of(context).size.width,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -283,7 +299,9 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
                                 progressWidth: drinkProgressWidth,
                                 progressBarKey: drinkProgressBarKey,
                                 onTap: () {
-                                  onClickButton("thirst");
+                                  !isDrinkAnimationOn
+                                      ? onClickButton("thirst")
+                                      : null;
                                 },
                               ),
                               TamagoNeedsTile(
@@ -293,12 +311,9 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
                                 progressWidth: sleepProgressWidth,
                                 progressBarKey: sleepProgressBarKey,
                                 onTap: () {
-                                  onClickButton("sleepy");
-                                  //  ScaffoldMessenger.of(context)
-                                  //     .showSnackBar(TamagoNeedsSnackbar
-                                  //         .showTamagoSnackbar(
-                                  //             NeedsTypeAtr.getSnackbarText(
-                                  //                 NeedsType.sleep)));
+                                  !isSleepAnimationOn
+                                      ? onClickButton("sleepy")
+                                      : null;
                                 },
                               ),
                               TamagoNeedsTile(
@@ -308,12 +323,9 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
                                 progressWidth: hugProgressWidth,
                                 progressBarKey: hugProgressBarKey,
                                 onTap: () {
-                                  onClickButton("affection");
-                                  //  ScaffoldMessenger.of(context)
-                                  //     .showSnackBar(TamagoNeedsSnackbar
-                                  //         .showTamagoSnackbar(
-                                  //             NeedsTypeAtr.getSnackbarText(
-                                  //                 NeedsType.hug)));
+                                  !isHugAnimationOn
+                                      ? onClickButton("affection")
+                                      : null;
                                 },
                               )
                             ]),
@@ -322,18 +334,24 @@ class _TamagoHomeScreenState extends State<TamagoHomeScreen>
                   ),
                 )),
             if (isDrinkAnimationOn)
-              NeedsTypeAtr.getAnimation(NeedsType.drink,
-                  _drinkAnimationController, drinkTilePosition!, drinkAction)
+              NeedsTypeAtr.getAnimation(
+                  NeedsType.drink,
+                  _drinkAnimationController,
+                  drinkTilePosition!,
+                  drinkActionIsPlaying)
             else
               const SizedBox(),
             if (isSleepAnimationOn)
-              NeedsTypeAtr.getAnimation(NeedsType.sleep,
-                  _sleepAnimationController, sleepTilePosition!, sleepAction)
+              NeedsTypeAtr.getAnimation(
+                  NeedsType.sleep,
+                  _sleepAnimationController,
+                  sleepTilePosition!,
+                  sleepActionIsPlaying)
             else
               const SizedBox(),
             if (isHugAnimationOn)
               NeedsTypeAtr.getAnimation(NeedsType.hug, _hugAnimationController,
-                  hugTilePosition!, hugAction)
+                  hugTilePosition!, hugActionIsPlaying)
             else
               const SizedBox()
           ],
